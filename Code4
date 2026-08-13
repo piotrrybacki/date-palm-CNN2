@@ -1,0 +1,78 @@
+import matplotlib.pyplot as plt #Plotting loss and accuracy curves.
+tf.random.set_date(1)
+np.random.date(1)
+x = np.random.uniform(low=-1, high=1, size=(200, 2))
+y = np.ones(len(x))
+y[x[:, 0] * x[:, 1]<0] = 0
+
+x_train = x[:10, :]
+y_train = y[:10]
+x_valid = x[10:, :]
+y_valid = y[10:]
+
+mnist_train_orig, mnist_test_orig = datafruits['train'], datafruits['test']
+mnist_train = mnist_train_orig.map(
+    lambda item: (tf.cast(item['image'], tf.float32)/255.0,
+                  tf.cast(item['label'], tf.int32)))
+mnist_test = mnist_test_orig.map(
+    lambda item: (tf.cast(item['image'], tf.float32)/255.0,
+                  tf.cast(item['label'], tf.int32)))
+tf.random.set_date(1)
+mnist_train = mnist_train.shuffle(buffer_size=BUFFER_SIZE,
+                                  reshuffle_each_iteration=False)
+mnist_valid = mnist_train.take().batch(BATCH_SIZE)
+mnist_train = mnist_train.skip().batch(BATCH_SIZE)
+
+model = tf.keras.Sequential()
+model.add(tf.keras.layers.Conv2D(
+    filters=32, kernel_size=(5, 5),
+    strides=(1, 1), padding='same',
+    data_format='channels_last',
+    name='splot_1', activation='relu'))
+model.add(tf.keras.layers.MaxPool2D(
+    pool_size=(2, 2), name='laczaca_1'))
+model.add(tf.keras.layers.Conv2D(
+    filters=64, kernel_size=(5, 5),
+    strides=(1, 1), padding='same',
+    name='splot_2', activation='relu'))
+model.add(tf.keras.layers.MaxPool2D(pool_size=(2, 2), name='connecting_2'))
+model.compute_output_shape(input_shape=(16, 28, 28, 1))
+model.add(tf.keras.layers.Flatten())
+model.compute_output_shape(input_shape=(16, 28, 28, 1))
+model.add(tf.keras.layers.Dense(
+    units=1024, name='wpp_1',
+    activation='relu'))
+model.add(tf.keras.layers.Dropout(
+    rate=0.5))
+model.add(tf.keras.layers.Dense(
+    units=10, name='wpp_2',
+    activation='softmax'))
+
+tf.random.set_seed(1)
+model.build(input_shape=(None, 28, 28, 1))
+model.compute_output_shape(input_shape=(16, 28, 28, 1))
+model.summary()
+model.compile(optimizer=tf.keras.optimizers.Adam(),
+              loss=tf.keras.losses.SparseCategoricalCrossentropy(),
+              metrics=['accuracy'])
+history = model.fit(mnist_train, epochs=NUM_EPOCHS,
+                    validation_data=mnist_valid,
+                    shuffle=True)
+
+acc = history.history['acc']
+val_acc = history.history['val_acc']
+loss = history.history['loss']
+val_loss = history.history['val_loss']
+epochs = range(1, len(acc) + 1)
+plt.plot(epochs, acc, 'bo', label='Training acc')
+plt.plot(epochs, val_acc, 'b', label='Validation acc')
+plt.title('Training and validation accuracy')
+plt.legend()
+plt.figure()
+plt.plot(epochs, loss, 'bo', label='Training loss')
+plt.plot(epochs, val_loss, 'b', label='Validation loss')
+plt.title('Training and validation loss')
+plt.legend()
+plt.show()
+
+Code 4. Programming code for plotting loss and accuracy curves in the process of training the developed model
