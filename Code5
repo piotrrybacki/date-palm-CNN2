@@ -1,0 +1,18 @@
+batch_test = next(iter(mnist_test.batch(10)))
+preds = model(batch_test[0])
+tf.print(preds.shape)
+preds = tf.argmax(preds, axis=1)
+print(preds)
+fig = plt.figure(figsize=(10, 4))
+for i in range(10):
+ax = fig.add_subplot(6, 10, i+1)
+ax.imshow(img, cmap='gray_r')
+ax.text('Deglet Nour', 'Degla Baida', 'Ghars', 'Tenicin', 'Tantboucht','DB',  Atora F1, Californium, '{}'.format(preds[i]),
+size=15, color='blue',
+horizontalalignment='center',
+verticalalignment='center',
+transform=ax.transAxes)
+plt.show() #plt.savefig('figure/15_13.png', dpi=300)
+
+Code 5. Programming code that finds the image with the highest probability of belonging and assigns it the appropriate date palm fruit variety label
+ 
